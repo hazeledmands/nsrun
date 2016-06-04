@@ -5,7 +5,9 @@
   "description": "A utility that will run npm scripts without all the logs from npm run-script.",
   "scripts": {
     "test": "mocha test.js",
-    "nested-test": "npm run test"
+    "tell-me-about-monkeys": "echo Monkeys are fun",
+    "tell-me-more-about-monkeys": "npm run tell-me-about-monkeys && echo But they can be a lot of work too.",
+    "fail": "exit 1"
   },
   "keywords": [
     "npm",
@@ -20,7 +22,8 @@
     "minimist": "^1.2.0"
   },
   "devDependencies": {
-    "mocha": "^2.4.5"
+    "mocha": "^2.4.5",
+    "nixt": "^0.5.0"
   },
   "bin": {
     "nsrun": "./nsrun.js"
