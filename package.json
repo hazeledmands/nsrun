@@ -1,6 +1,6 @@
 {
   "name": "nsrun",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "preferGlobal": true,
   "description": "A utility that will run npm scripts without all the logs from npm run-script.",
   "scripts": {
