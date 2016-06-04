@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 "use strict"
 
-const _ = require('lodash');
-const kexec = require('kexec');
+const find = require('lodash.find');
 const fs = require('fs');
-const path = require('path');
+const kexec = require('kexec');
 const minimist = require('minimist');
+const path = require('path');
 
 let pkgPath = process.cwd();
 let pkgJsonFile = null;
@@ -43,7 +43,7 @@ if (scripts.length === 0) {
 const argv = minimist(process.argv.slice(2));
 const args = argv._ || [];
 const scriptName = args.shift();
-const scriptToRun = _.find(scripts, {name: scriptName});
+const scriptToRun = find(scripts, {name: scriptName});
 
 /** ************* LIST ALL SCRIPTS ON NO INPUT *******************/
 if (!scriptToRun) {

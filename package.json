@@ -16,7 +16,7 @@
   "license": "ISC",
   "dependencies": {
     "kexec": "^2.0.2",
-    "lodash": "^4.12.0",
+    "lodash.find": "^4.4.0",
     "minimist": "^1.2.0"
   },
   "devDependencies": {
