@@ -4,7 +4,8 @@
   "preferGlobal": true,
   "description": "A utility that will run npm scripts without all the logs from npm run-script.",
   "scripts": {
-    "test": "mocha test.js"
+    "test": "mocha test.js",
+    "nested-test": "npm run test"
   },
   "keywords": [
     "npm",

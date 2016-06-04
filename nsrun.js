@@ -57,6 +57,16 @@ if (!scriptToRun) {
 /** ************* RUN SCRIPT *************************************/
 if (scriptToRun) {
   process.env.PATH = path.join(pkgPath, 'node_modules', '.bin') + ':' + process.env.PATH;
+
+  // convert npm run-script (and all aliases) to nsrun
+  scriptToRun.script = scriptToRun.script
+    .replace('npm run-script', 'nsrun')
+    .replace('npm run', 'nsrun')
+    .replace('npm test', 'nsrun test')
+    .replace('npm start', 'nsrun start')
+    .replace('npm stop', 'nsrun stop')
+    .replace('npm restart', 'nsrun restart');
+
   kexec(scriptToRun.script + ' ' + args.map(function (arg) { return `'${arg}'` }).join(' '));
 }
 

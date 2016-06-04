@@ -27,7 +27,7 @@ List all the scripts defined in package.json:
 
 - Passes arguments right through to your script (no need for `--`).
 
-- TODO: Uses `nsrun` whenever it sees `npm run-script` or `npm run` in one of
+- Uses `nsrun` whenever it sees `npm run-script` or `npm run` in one of
   your script definitions.
 
 ## WHY?
