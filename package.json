@@ -1,13 +1,17 @@
 {
   "name": "nsrun",
   "version": "1.0.1",
-  "description": "",
-  "main": "index.js",
+  "preferGlobal": true,
+  "description": "A utility that will run npm scripts without all the logs from npm run-script.",
   "scripts": {
     "test": "mocha test.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "npm",
+    "npm run-script",
+    "npm run"
+  ],
+  "author": "Max Edmands <npm@maxedmands.com>",
   "license": "ISC",
   "dependencies": {
     "kexec": "^2.0.2",
