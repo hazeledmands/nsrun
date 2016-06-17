@@ -5,8 +5,9 @@
   "description": "A utility that will run npm scripts without all the logs from npm run-script.",
   "scripts": {
     "test": "mocha test.js",
-    "tell-me-about-monkeys": "echo Monkeys are fun",
-    "tell-me-more-about-monkeys": "npm run tell-me-about-monkeys && echo But they can be a lot of work too.",
+    "monkey-facts": "echo Monkeys are fun",
+    "more-monkey-facts": "echo Monkeys are frequently cheeky",
+    "tell-me-about-monkeys": "npm run monkey-facts && npm run more-monkey-facts",
     "fail": "exit 1"
   },
   "keywords": [

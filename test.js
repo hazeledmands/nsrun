@@ -2,7 +2,7 @@ const nixt = require('nixt');
 
 it('runs the scripts you define in package.json', function (done) {
   nixt()
-  .run('./nsrun.js tell-me-about-monkeys')
+  .run('./nsrun.js monkey-facts')
   .stdout('Monkeys are fun')
   .stderr('')
   .code(0)
@@ -11,8 +11,8 @@ it('runs the scripts you define in package.json', function (done) {
 
 it('runs nested scripts with nsrun instead of npm run', function (done) {
   nixt()
-  .run('./nsrun.js tell-me-more-about-monkeys')
-  .stdout('Monkeys are fun\nBut they can be a lot of work too.')
+  .run('./nsrun.js tell-me-about-monkeys')
+  .stdout('Monkeys are fun\nMonkeys are frequently cheeky')
   .stderr('')
   .code(0)
   .end(done);
@@ -31,10 +31,11 @@ it('outputs all the scripts in package.json with no arguments', function (done) 
   nixt()
   .run('./nsrun.js')
   .stdout([
-    '4 scripts in ./package.json:',
+    '5 scripts in ./package.json:',
     ' * test',
+    ' * monkey-facts',
+    ' * more-monkey-facts',
     ' * tell-me-about-monkeys',
-    ' * tell-me-more-about-monkeys',
     ' * fail'
   ].join('\n'))
   .stderr('')

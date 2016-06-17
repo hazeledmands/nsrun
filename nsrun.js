@@ -60,12 +60,12 @@ if (scriptToRun) {
 
   // convert npm run-script (and all aliases) to nsrun
   scriptToRun.script = scriptToRun.script
-    .replace('npm run-script', 'nsrun')
-    .replace('npm run', 'nsrun')
-    .replace('npm test', 'nsrun test')
-    .replace('npm start', 'nsrun start')
-    .replace('npm stop', 'nsrun stop')
-    .replace('npm restart', 'nsrun restart');
+    .replace(/npm run-script/g, 'nsrun')
+    .replace(/npm run/g, 'nsrun')
+    .replace(/npm test/g, 'nsrun test')
+    .replace(/npm start/g, 'nsrun start')
+    .replace(/npm stop/g, 'nsrun stop')
+    .replace(/npm restart/g, 'nsrun restart');
 
   kexec(scriptToRun.script + ' ' + args.map(function (arg) { return `'${arg}'` }).join(' '));
 }
