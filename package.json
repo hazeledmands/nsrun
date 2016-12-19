@@ -18,7 +18,6 @@
   "author": "Max Edmands <npm@maxedmands.com>",
   "license": "ISC",
   "dependencies": {
-    "kexec": "^2.0.2",
     "lodash.find": "^4.4.0",
     "minimist": "^1.2.0"
   },
