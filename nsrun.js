@@ -76,9 +76,12 @@ scriptToRun.script = scriptToRun.script
 const command = scriptToRun.script + ' ' +
   args.map(function (arg) { return `'${arg}'` }).join(' ');
 
-const child = cp.exec(command);
-child.stdout.pipe(process.stdout);
-child.stderr.pipe(process.stderr);
+const child = cp.spawn('/bin/sh', ['-c', command], {
+  cwd: process.cwd(),
+  env: process.env,
+  shell: true,
+  stdio: 'inherit',
+});
 child.on('error', function (err) { console.error(err.stack); });
 child.on('exit', function (code, signal) { process.exit(code); });
 
