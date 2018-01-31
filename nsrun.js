@@ -100,14 +100,14 @@ if ( (/\$[0-9]|\$\*/).test(scriptToRun.script) )
 }
 else
 {
-  command = scriptToRun.script + ' ' + args.join(' '));
+  command = scriptToRun.script + ' ' + args.join(' ');
 }
 
-const child = cp.spawn('/bin/sh', ['-c', command], {
+const child = cp.spawn(command, {
   cwd: process.cwd(),
   env: process.env,
-  shell: true,
   stdio: 'inherit',
+  shell: true
 });
 child.on('error', function (err) { console.error(err.stack); });
 child.on('exit', function (code, signal) { process.exit(code); });
