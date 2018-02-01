@@ -34,5 +34,8 @@
   },
   "bin": {
     "nsrun": "./nsrun.js"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
   }
 }
