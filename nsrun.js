@@ -42,7 +42,7 @@ if (scripts.length === 0) {
 /** ************** FIGURE OUT WHAT SCRIPT TO RUN *****************/
 const currentProcessPath = process.argv.slice(0, 2).join(' ');
 const argv = minimist(process.argv.slice(2));
-const args = argv._ || [];
+let   args = argv._ || [];
 const scriptName = args.shift();
 const scriptToRun = find(scripts, {name: scriptName});
 
@@ -73,14 +73,41 @@ scriptToRun.script = scriptToRun.script
   .replace(/npm stop/g, currentProcessPath + ' stop')
   .replace(/npm restart/g, currentProcessPath + ' restart');
 
-const command = scriptToRun.script + ' ' +
-  args.map(function (arg) { return `'${arg}'` }).join(' ');
+args = args.map(function (arg) { return `'${arg}'` });
+let command = '';
+  
+if ( (/\$[0-9]|\$\*/).test(scriptToRun.script) )
+{
+  let found = [];
 
-const child = cp.spawn('/bin/sh', ['-c', command], {
+  command = scriptToRun.script.replace(/(\$[0-9])/g,function(v){
+    v=v.substr(1) - 1;
+    if ( typeof args[v] === 'undefined' ) return '$'+(v++);
+    found.push(v);
+    return args[v];
+  });
+
+  // TODO : Add a --nsrun-no-clear to preserve arguments
+  found.map(function(v){args[v]=''});
+
+  command = command.replace(/(\$\*)/,args.join(' '));
+
+  if ( (/\$[0-9]/).test(command) )
+  {
+    console.log('Arguments in script missmatchs');
+    process.exit(1);
+  }
+}
+else
+{
+  command = scriptToRun.script + ' ' + args.join(' ');
+}
+
+const child = cp.spawn(command, {
   cwd: process.cwd(),
   env: process.env,
-  shell: true,
   stdio: 'inherit',
+  shell: true
 });
 child.on('error', function (err) { console.error(err.stack); });
 child.on('exit', function (code, signal) { process.exit(code); });

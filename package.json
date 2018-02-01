@@ -8,6 +8,10 @@
     "monkey-facts": "echo Monkeys are fun",
     "more-monkey-facts": "echo Monkeys are frequently cheeky",
     "tell-me-about-monkeys": "npm run monkey-facts && npm run more-monkey-facts",
+    "give-a-monkey-name": "echo My monkey as that stupid name : $1",
+    "monkeys-dreams": "echo Monkeys dreams of $*, sometimes",
+    "more-monkeys-dreams": "echo Monkeys dreams 2 things : $2 and $1, sometimes it $*",
+    "monkeys-knows-nothing": "echo Monkeys $1 $2 $3 $4 $5",
     "fail": "exit 1"
   },
   "keywords": [

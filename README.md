@@ -30,6 +30,15 @@ List all the scripts defined in package.json:
 - Uses `nsrun` whenever it sees `npm run-script` or `npm run` in one of
   your script definitions.
 
+- Uses `$*` and/or `$1,$2,...` wherever in your npm script definitions. The argument 
+  of a positional parameter is cleared from the list of arguments.
+```
+"coveralls": "npm run-script cover && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage"
+"publish-release": "npm version $1 && npm publish && git push origin $2 && npm run coveralls"
+...
+$ nsrun publish-release patch master
+```
+
 ## WHY?
 
 I love [npm's `run-script` feature](https://docs.npmjs.com/cli/run-script). It
