@@ -98,8 +98,10 @@ describe("Positionned arguments", function() {
   it("runs the scripts you define in package.json with bad arguments", function(done) {
     nixt()
       .run("./nsrun.js monkeys-knows-nothing just like john snow")
-      .stdout("Arguments in script missmatchs")
-      .stderr("")
+      .stdout("")
+      .stderr(
+        "The script (monkeys-knows-nothing) expected additional positional arguments!"
+      )
       .code(1)
       .end(done);
   });

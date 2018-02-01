@@ -101,7 +101,9 @@ if (/\$[0-9]|\$\*/.test(scriptToRun.script)) {
   command = command.replace(/(\$\*)/, args.join(" "));
 
   if (/\$[0-9]/.test(command)) {
-    console.log("Arguments in script missmatchs");
+    console.error(
+      `The script (${scriptName}) expected additional positional arguments!`
+    );
     process.exit(1);
   }
 } else {
@@ -126,7 +128,7 @@ child.on("exit", function(code, signal) {
   "SIGTERM",
   "SIGINT",
   "SIGPIPE",
-  "GITHUP",
+  "SIGHUP",
   "SIGBREAK",
   "SIGWINCH"
 ].map(function(signal) {
