@@ -1,5 +1,7 @@
 # nsrun
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/demands/nsrun.svg)](https://greenkeeper.io/)
+
 A utility that will run npm scripts without all the logs from `npm run-script`.
 [![Build Status](https://travis-ci.org/demands/nsrun.svg?branch=master)](https://travis-ci.org/demands/nsrun)
 
