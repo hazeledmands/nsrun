@@ -1,8 +1,17 @@
 language: node_js
 node_js:
-  - "lts/*"
-  - "8"
-  - "7"
-  - "6"
-  - "5"
-  - "4"
+- lts/*
+- '8'
+- '7'
+- '6'
+- '5'
+- '4'
+before_install:
+# package-lock.json was introduced in npm@5
+- '[[ $(node -v) =~ ^v9.*$ ]] || npm install -g npm@latest' # skipped when using node 9
+- npm install -g greenkeeper-lockfile@1
+before_script: greenkeeper-lockfile-update
+after_script: greenkeeper-lockfile-upload
+env:
+  global:
+    secure: WLyQ6GsvqLxkPSMaCox+oxL/OHHh8BSsNLEwZKsyi4Z6zCmHpSanBopXIV47Y+GmmRQxIPtzpcunQ9ADHW32ZIc95x7B7gscIbSeuzLcvNciaN8TGCb/qGJh9KN35EMGSMRPmQRQfmkTVEsUVB4Sa6It+bW05dUlfx/LZ7F47ST8NOG3oLIshN7GZEWNGxeRdT4V29PtMz89xd8lUY3me6NO52hBtiGgsf/+FJuIJxVsxhxfuYZ/JLqKjLqw0E7bZzxitCybawSy4UoW38UyQR3SxpkOvGJAsOP1Y2zUkoMlzA0S0CC7W4nngC3iteU6xzVqHchob7nEMlth0xWEWrb3GpXfzPu1mtqT9C0O0EplsNqzBQPHOdnCPbCnbF9z18SAsdLFQDSpCimrLgPciJxB9cPwTw+Xkr/oANvk/fyiXtqp1f9jnQfadDQ/J6YEg5u4B4XUAvcTlY1gAOvRYQy1DSZiQ3sA6tjhUQ86Zi8jHXreW72wlQkNJxQcoW3ESIjwNJC4tkZNY0sWaksvs9lh8CfGN2BZK3W4kvU2R4YDxAxVxbvIijj4QqXItZKchURuO/zW1BOkXH0wSoS6koEWtCwqepkKWDnrJnfi6g9kPTIKvN5oUtzKJ39nVBWQNjnwCUClgMNzRMLnpGLUWbUNlmxubFaNMIjqMBLOaqw=
