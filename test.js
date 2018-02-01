@@ -42,7 +42,7 @@ describe("At end arguments", function() {
       .run("./nsrun.js")
       .stdout(
         [
-          "9 scripts in ./package.json:",
+          "10 scripts in ./package.json:",
           " * test",
           " * monkey-facts",
           " * more-monkey-facts",
@@ -51,7 +51,8 @@ describe("At end arguments", function() {
           " * monkeys-dreams",
           " * more-monkeys-dreams",
           " * monkeys-knows-nothing",
-          " * fail"
+          " * fail",
+          " * precommit"
         ].join("\n")
       )
       .stderr("")
