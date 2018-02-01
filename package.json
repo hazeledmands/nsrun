@@ -36,6 +36,6 @@
     "nsrun": "./nsrun.js"
   },
   "publishConfig": {
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://registry.npmjs.com/"
   }
 }
