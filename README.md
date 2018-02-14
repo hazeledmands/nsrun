@@ -1,7 +1,9 @@
 # nsrun
 
-A utility that will run npm scripts without all the logs from `npm run-script`.
+[![Greenkeeper badge](https://badges.greenkeeper.io/demands/nsrun.svg)](https://greenkeeper.io/)
+[![Build Status](https://travis-ci.org/demands/nsrun.svg?branch=master)](https://travis-ci.org/demands/nsrun)
 
+A utility that will run npm scripts without all the logs from `npm run-script`.
 
 ## USAGE
 
@@ -18,17 +20,27 @@ List all the scripts defined in package.json:
 
 ## FEATURES
 
-- Steps right into the background and allows your script to take over. The only
+* Steps right into the background and allows your script to take over. The only
   output you see is whatever the script itself outputs.
 
-- Just like `npm run-script`, augments your `$PATH` with the binaries in
+* Just like `npm run-script`, augments your `$PATH` with the binaries in
   `./node_modules/.bin/`, so you can use `mocha` without worrying about
   installing it globally (for example).
 
-- Passes arguments right through to your script (no need for `--`).
+* Passes arguments right through to your script (no need for `--`).
 
-- Uses `nsrun` whenever it sees `npm run-script` or `npm run` in one of
+* Uses `nsrun` whenever it sees `npm run-script` or `npm run` in one of
   your script definitions.
+
+* Uses `$*` and/or `$1,$2,...` wherever in your npm script definitions. The argument
+  of a positional parameter is cleared from the list of arguments.
+
+```
+"coveralls": "npm run-script cover && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage"
+"publish-release": "npm version $1 && npm publish && git push origin $2 && npm run coveralls"
+...
+$ nsrun publish-release patch master
+```
 
 ## WHY?
 
@@ -60,7 +72,7 @@ information I really want to see.
 
 I wrote this utility to replace `npm run-script` -- the only difference is that
 this one doesn't print out any output at all. In fact, it uses `kexec` to just
-*become* whatever process your script should be.
+_become_ whatever process your script should be.
 
 ## TESTING
 

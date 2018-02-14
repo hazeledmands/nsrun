@@ -1,20 +1,24 @@
 {
   "name": "nsrun",
-  "version": "1.3.0",
+  "version": "1.4.1",
   "preferGlobal": true,
-  "description": "A utility that will run npm scripts without all the logs from npm run-script.",
+  "description":
+    "A utility that will run npm scripts without all the logs from npm run-script.",
   "scripts": {
     "test": "mocha test.js",
     "monkey-facts": "echo Monkeys are fun",
     "more-monkey-facts": "echo Monkeys are frequently cheeky",
-    "tell-me-about-monkeys": "npm run monkey-facts && npm run more-monkey-facts",
-    "fail": "exit 1"
+    "tell-me-about-monkeys":
+      "npm run monkey-facts && npm run more-monkey-facts",
+    "give-a-monkey-name": "echo My monkey as that stupid name : $1",
+    "monkeys-dreams": "echo Monkeys dreams of $*, sometimes",
+    "more-monkeys-dreams":
+      "echo Monkeys dreams 2 things : $2 and $1, sometimes it $*",
+    "monkeys-knows-nothing": "echo Monkeys $1 $2 $3 $4 $5",
+    "fail": "exit 1",
+    "precommit": "pretty-quick --staged"
   },
-  "keywords": [
-    "npm",
-    "npm run-script",
-    "npm run"
-  ],
+  "keywords": ["npm", "npm run-script", "npm run"],
   "author": "Max Edmands <npm@maxedmands.com>",
   "license": "ISC",
   "dependencies": {
@@ -22,10 +26,16 @@
     "minimist": "^1.2.0"
   },
   "devDependencies": {
-    "mocha": "^2.4.5",
-    "nixt": "^0.5.0"
+    "husky": "^0.14.3",
+    "mocha": "^5.0.0",
+    "nixt": "^0.5.0",
+    "prettier": "1.10.2",
+    "pretty-quick": "^1.2.3"
   },
   "bin": {
     "nsrun": "./nsrun.js"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.com/"
   }
 }
