@@ -45,10 +45,10 @@ if (scripts.length === 0) {
 const currentProcessPath = process.argv.slice(0, 2).join(" ");
 const argv = minimist(process.argv.slice(2));
 let args = argv._ || [];
-const scriptName = args.shift();
-const scriptToRun = find(scripts, { name: scriptName });
 
 /** ************* LIST ALL SCRIPTS ON NO INPUT *******************/
+const scriptName = args.shift();
+
 if (!scriptName) {
   console.log(`${scripts.length} scripts in ${humanReadablePkgPath}:`);
   scripts.forEach(function(script) {
@@ -58,6 +58,8 @@ if (!scriptName) {
 }
 
 /** ************* ERROR ******************************************/
+const scriptToRun = find(scripts, { name: scriptName });
+
 if (!scriptToRun) {
   console.log(
     `${humanReadablePkgPath}: No script found with name "${scriptName}"`
@@ -65,74 +67,89 @@ if (!scriptToRun) {
   process.exit(1);
 }
 
+// See : npm help 7 scripts
+const scriptToPreRun = find(scripts, {name: "pre"+scriptName});
+const scriptToPostRun = find(scripts, {name: "post"+scriptName});
+
 /** ************* RUN SCRIPT *************************************/
 process.env.PATH =
   path.join(pkgPath, "node_modules", ".bin") + ":" + process.env.PATH;
 
-// convert npm run-script (and all aliases) to nsrun
-scriptToRun.script = scriptToRun.script
-  .replace(/npm run-script/g, currentProcessPath)
-  .replace(/npm run/g, currentProcessPath)
-  .replace(/npm test/g, currentProcessPath + " test")
-  .replace(/npm start/g, currentProcessPath + " start")
-  .replace(/npm stop/g, currentProcessPath + " stop")
-  .replace(/npm restart/g, currentProcessPath + " restart");
-
 args = args.map(function(arg) {
   return `'${arg}'`;
 });
-let command = "";
 
-if (/\$[0-9]|\$\*/.test(scriptToRun.script)) {
-  let found = [];
+function runScript( script ,withArgs ) {
+    // convert npm run-script (and all aliases) to nsrun
+  script.script = script.script
+    .replace(/npm run-script/g, currentProcessPath)
+    .replace(/npm run/g, currentProcessPath)
+    .replace(/npm test/g, currentProcessPath + " test")
+    .replace(/npm start/g, currentProcessPath + " start")
+    .replace(/npm stop/g, currentProcessPath + " stop")
+    .replace(/npm restart/g, currentProcessPath + " restart");
 
-  command = scriptToRun.script.replace(/(\$[0-9])/g, function(v) {
-    v = v.substr(1) - 1;
-    if (typeof args[v] === "undefined") return "$" + v++;
-    found.push(v);
-    return args[v];
-  });
+  let command = "";
 
-  // TODO : Add a --nsrun-no-clear to preserve arguments
-  found.map(function(v) {
-    args[v] = "";
-  });
+  if ( ! withArgs ) {
+    command = script.script;
+  } else {
+    if (/\$[0-9]|\$\*/.test(script.script)) {
+      let found = [];
 
-  command = command.replace(/(\$\*)/, args.join(" "));
+      command = script.script.replace(/(\$[0-9])/g, function(v) {
+        v = v.substr(1) - 1;
+        if (typeof args[v] === "undefined") return "$" + v++;
+        found.push(v);
+        return args[v];
+      });
 
-  if (/\$[0-9]/.test(command)) {
-    console.error(
-      `The script (${scriptName}) expected additional positional arguments!`
-    );
-    process.exit(1);
+      // TODO : Add a --nsrun-no-clear to preserve arguments
+      found.map(function(v) {
+        args[v] = "";
+      });
+
+      command = command.replace(/(\$\*)/, args.join(" "));
+
+      if (/\$[0-9]/.test(command)) {
+        console.error(
+          `The script (${scriptName}) expected additional positional arguments!`
+        );
+        process.exit(1);
+      }
+    } else {
+      command = script.script + " " + args.join(" ");
+    }
   }
-} else {
-  command = scriptToRun.script + " " + args.join(" ");
+
+  const child = cp.spawn(command, {
+    cwd: process.cwd(),
+    env: process.env,
+    stdio: "inherit",
+    shell: true
+  });
+  child.on("error", function(err) {
+    console.error(err.stack);
+  });
+  child.on("exit", function(code, signal) {
+    process.exit(code);
+  });
+
+  [
+    "SIGUSR1",
+    "SIGTERM",
+    "SIGINT",
+    "SIGPIPE",
+    "SIGHUP",
+    "SIGBREAK",
+    "SIGWINCH"
+  ].map(function(signal) {
+    process.on(signal, function() {
+      child.kill(signal);
+    });
+  });
 }
 
-const child = cp.spawn(command, {
-  cwd: process.cwd(),
-  env: process.env,
-  stdio: "inherit",
-  shell: true
-});
-child.on("error", function(err) {
-  console.error(err.stack);
-});
-child.on("exit", function(code, signal) {
-  process.exit(code);
-});
-
-[
-  "SIGUSR1",
-  "SIGTERM",
-  "SIGINT",
-  "SIGPIPE",
-  "SIGHUP",
-  "SIGBREAK",
-  "SIGWINCH"
-].map(function(signal) {
-  process.on(signal, function() {
-    child.kill(signal);
-  });
-});
+scriptToPreRun && runScript( scriptToPreRun ,false );
+runScript( scriptToRun ,true );
+scriptToPostRun && runScript( scriptToPostRun ,false );

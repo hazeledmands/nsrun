@@ -42,7 +42,7 @@ describe("At end arguments", function() {
       .run("./nsrun.js")
       .stdout(
         [
-          "10 scripts in ./package.json:",
+          "13 scripts in ./package.json:",
           " * test",
           " * monkey-facts",
           " * more-monkey-facts",
@@ -51,6 +51,9 @@ describe("At end arguments", function() {
           " * monkeys-dreams",
           " * more-monkeys-dreams",
           " * monkeys-knows-nothing",
+          " * premonkey-ride",
+          " * monkey-ride",
+          " * postmonkey-ride",
           " * fail",
           " * precommit"
         ].join("\n")
@@ -105,4 +108,16 @@ describe("Positionned arguments", function() {
       .code(1)
       .end(done);
   });
+});
+
+describe("Run pre and post scripts" ,function(){
+
+    it("runs the scripts with pre and post scripts", function (done) {
+        nixt()
+        .run("./nsrun.js monkey-ride")
+        .stdout("Ride on\nGo monkey!\nRide off")
+        .stderr("")
+        .code(0)
+        .end(done);
+    });
 });
