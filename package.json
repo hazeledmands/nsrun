@@ -15,6 +15,9 @@
     "more-monkeys-dreams":
       "echo Monkeys dreams 2 things : $2 and $1, sometimes it $*",
     "monkeys-knows-nothing": "echo Monkeys $1 $2 $3 $4 $5",
+    "premonkey-ride": "echo Ride on",
+    "monkey-ride": "echo Go monkey!",
+    "postmonkey-ride": "echo Ride off",
     "fail": "exit 1",
     "precommit": "pretty-quick --staged"
   },
